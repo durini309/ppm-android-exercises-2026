@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -89,7 +90,7 @@ fun BanderaGuate(
     ) {
         Text(
             text = "Guatemala",
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.bodyLarge
         )
         Row(
             modifier = Modifier
@@ -105,7 +106,7 @@ fun BanderaGuate(
                     .weight(1f)
                     .fillMaxHeight()
                     .background(
-                        color = Color.Blue.copy(alpha = 0.3f)
+                        color = MaterialTheme.colorScheme.primary
                     )
             )
             Box(
@@ -140,7 +141,7 @@ fun BanderaGuate(
                     .weight(1f)
                     .fillMaxHeight()
                     .background(
-                        color = Color.Blue.copy(alpha = 0.3f)
+                        color = MaterialTheme.colorScheme.primary
                     )
                     .border(
                         width = 4.dp,
@@ -166,9 +167,13 @@ private fun PreviewOrdenModifiers() {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewBanderaGuate() {
-    PowerSaveTheme {
-        BanderaGuate(
-            modifier = Modifier.fillMaxSize().padding(16.dp)
-        )
+    PowerSaveTheme(
+        darkTheme = false
+    ) {
+        Surface {
+            BanderaGuate(
+                modifier = Modifier.fillMaxSize().padding(16.dp)
+            )
+        }
     }
 }
