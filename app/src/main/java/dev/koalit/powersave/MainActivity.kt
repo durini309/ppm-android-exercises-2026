@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import dev.koalit.powersave.ejercicios.AppNavigation
+import dev.koalit.powersave.ejercicios.AppNavigation2
 import dev.koalit.powersave.labs.PantallaJornada
 import dev.koalit.powersave.ui.theme.PowerSaveTheme
 
@@ -19,7 +20,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             PowerSaveTheme {
                 Scaffold { innerPadding ->
-                    AppNavigation()
+                    AppNavigation2(
+                        modifier = Modifier.fillMaxSize().padding(innerPadding)
+                    )
                 }
             }
         }
