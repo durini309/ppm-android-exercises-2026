@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import dev.koalit.powersave.ejercicios.AppNavigation
 import dev.koalit.powersave.ejercicios.AppNavigation2
 import dev.koalit.powersave.ejercicios.claseVM.PantallaVMRoute
+import dev.koalit.powersave.ejercicios.corrutinas.CorrutinasRoute
 import dev.koalit.powersave.ejercicios.nombres_random.NombresRandomRoute
+import dev.koalit.powersave.ejercicios.timer.TimerRoute
 import dev.koalit.powersave.labs.PantallaJornada
 import dev.koalit.powersave.ui.theme.PowerSaveTheme
 
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PowerSaveTheme {
                 Scaffold { innerPadding ->
-                    NombresRandomRoute(
+                    TimerRoute(
                         modifier = Modifier.fillMaxSize().padding(innerPadding)
                     )
                 }
