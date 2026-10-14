@@ -12,6 +12,7 @@ import dev.koalit.powersave.ejercicios.AppNavigation
 import dev.koalit.powersave.ejercicios.AppNavigation2
 import dev.koalit.powersave.ejercicios.claseVM.PantallaVMRoute
 import dev.koalit.powersave.ejercicios.corrutinas.CorrutinasRoute
+import dev.koalit.powersave.ejercicios.datastore.SessionNavHost
 import dev.koalit.powersave.ejercicios.login.LoginRoute
 import dev.koalit.powersave.ejercicios.nombres_random.NombresRandomRoute
 import dev.koalit.powersave.ejercicios.timer.TimerRoute
@@ -25,8 +26,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             PowerSaveTheme {
                 Scaffold { innerPadding ->
-                    LoginRoute(
-                        modifier = Modifier.fillMaxSize().padding(innerPadding)
+                    SessionNavHost(
+                        modifier = Modifier.fillMaxSize()
+                            .padding(innerPadding)
                     )
                 }
             }
