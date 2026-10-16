@@ -13,3 +13,19 @@ data class Restaurante(
     val aceptaReservas: Boolean,
     val tieneParqueo: Boolean,
 )
+
+fun Restaurante.mapToEntity(): RestauranteEntity {
+    return RestauranteEntity(
+        id = id,
+        nombre = nombre,
+        tipoCocina = tipoCocina,
+        direccion = direccion,
+        ciudad = ciudad,
+        telefono = telefono,
+        calificacion = calificacion,
+        precioPromedio = precioPromedio,
+        capacidad = capacidad,
+        aceptaReservas = aceptaReservas,
+        tieneParqueo = tieneParqueo
+    )
+}

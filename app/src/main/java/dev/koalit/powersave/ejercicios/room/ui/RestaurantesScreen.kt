@@ -16,12 +16,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.Entity
 import dev.koalit.powersave.ejercicios.room.data.Restaurante
 import dev.koalit.powersave.ejercicios.room.data.RestaurantesDb
 import dev.koalit.powersave.ui.theme.PowerSaveTheme
 
 @Composable
-fun RestaurantesScreen(modifier: Modifier = Modifier) {
+fun RestaurantesRoute(
+    modifier: Modifier = Modifier,
+    viewModel: RestaurantesViewModel = viewModel()
+) {
+    val restaurantes = RestaurantesDb.restaurantes
+    LazyColumn(modifier) {
+        items(restaurantes) {
+            RestauranteItem(
+                restaurante = it,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+private fun RestaurantesScreen(
+    modifier: Modifier = Modifier,
+) {
     val restaurantes = RestaurantesDb.restaurantes
     LazyColumn(modifier) {
         items(restaurantes) {
