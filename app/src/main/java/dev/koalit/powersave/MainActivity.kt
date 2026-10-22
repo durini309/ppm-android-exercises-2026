@@ -26,11 +26,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PowerSaveTheme {
-                Scaffold { innerPadding ->
-                    RestaurantesRoute(
-                        modifier = Modifier.fillMaxSize().padding(innerPadding)
-                    )
-                }
+                RestaurantesRoute(
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
