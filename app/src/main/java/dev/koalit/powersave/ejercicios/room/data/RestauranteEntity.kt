@@ -11,5 +11,16 @@ data class RestauranteEntity(
     val tipoCocina: String,
     val direccion: String,
     val calificacion: Double,
-    val esFavorito: Boolean = false,
+    val esFavorito: Int = 0,
 )
+
+fun RestauranteEntity.toModelo(): Restaurante {
+    return Restaurante(
+        id = id,
+        nombre = nombre,
+        tipoCocina = tipoCocina,
+        direccion = direccion,
+        calificacion = calificacion,
+        esFavorito = if (esFavorito == 1) true else false
+    )
+}

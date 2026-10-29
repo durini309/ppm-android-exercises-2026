@@ -17,15 +17,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.koalit.powersave.R
-import dev.koalit.powersave.ejercicios.room.data.RestauranteEntity
-import dev.koalit.powersave.ejercicios.room.data.RestaurantesDb
+import dev.koalit.powersave.ejercicios.room.data.Restaurante
 import dev.koalit.powersave.ui.theme.PowerSaveTheme
 
 @Composable
@@ -33,7 +34,15 @@ fun RestaurantesRoute(
     modifier: Modifier = Modifier,
     viewModel: RestaurantesViewModel = viewModel()
 ) {
+    val restaurantes by viewModel.rest.collectAsStateWithLifecycle()
+    val filtrarFavoritos by viewModel.filtrarFavoritos.collectAsStateWithLifecycle()
     RestaurantesScreen(
+        restaurantes = restaurantes,
+        filtrarFavoritos = filtrarFavoritos,
+        onFiltrarClick = viewModel::cambiarFiltro,
+        onFavoritoClick = viewModel::updateRestaurant,
+        onBorrarClick = viewModel::deleteRestaurant,
+        syncDb = viewModel::syncDb,
         modifier = modifier
     )
 }
@@ -41,23 +50,49 @@ fun RestaurantesRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RestaurantesScreen(
+    restaurantes: List<Restaurante>,
+    syncDb: () -> Unit,
+    filtrarFavoritos: Int,
+    onFiltrarClick: (Int) -> Unit,
+    onFavoritoClick: (Restaurante) -> Unit,
+    onBorrarClick: (Restaurante) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val restaurantes = RestaurantesDb.restaurantes
     Scaffold(
         modifier = modifier,
         topBar = {
             TopAppBar(
                 title = { Text("Room") },
                 actions = {
-//                    IconButton(
-//                        onClick = {}
-//                    ) {
-//                        Icon(
-//                            painter = painterResource(R.drawable.ic_sync),
-//                            contentDescription = "Sincronizar"
-//                        )
-//                    }
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        IconButton(
+                            onClick = {
+                                val nuevoValor = if (filtrarFavoritos == 1) {
+                                    0
+                                } else {
+                                    1
+                                }
+                                onFiltrarClick(nuevoValor)
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(
+                                    if (filtrarFavoritos == 1) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                                ),
+                                contentDescription = "Favorito"
+                            )
+                        }
+                        IconButton(
+                            onClick = syncDb
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_sync),
+                                contentDescription = "Sincronizar"
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -69,6 +104,8 @@ private fun RestaurantesScreen(
         ) {
             items(restaurantes) {
                 RestauranteItem(
+                    onFavoritoClick = onFavoritoClick,
+                    onBorrarClick = onBorrarClick,
                     restaurante = it,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -79,7 +116,9 @@ private fun RestaurantesScreen(
 
 @Composable
 private fun RestauranteItem(
-    restaurante: RestauranteEntity,
+    restaurante: Restaurante,
+    onFavoritoClick: (Restaurante) -> Unit,
+    onBorrarClick: (Restaurante) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -98,7 +137,9 @@ private fun RestauranteItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = {}
+                onClick = {
+                    onFavoritoClick(restaurante)
+                }
             ) {
                 Icon(
                     painter = painterResource(
@@ -108,7 +149,9 @@ private fun RestauranteItem(
                 )
             }
             TextButton(
-                onClick = {}
+                onClick = {
+                    onBorrarClick(restaurante)
+                }
             ) {
                 Text("Borrar")
             }
@@ -122,6 +165,21 @@ private fun PreviewRestauranteItem() {
     PowerSaveTheme{
         Surface() {
             RestaurantesScreen(
+                syncDb = {},
+                filtrarFavoritos = 0,
+                onFiltrarClick = {},
+                onFavoritoClick = {},
+                onBorrarClick = {},
+                restaurantes = listOf(
+                    Restaurante(
+                        id = 1,
+                        nombre = "Ookii",
+                        direccion = "Zona 10",
+                        tipoCocina = "Poke",
+                        calificacion = 5.0,
+                        esFavorito = false
+                    )
+                ),
                 modifier = Modifier.fillMaxSize()
             )
         }
