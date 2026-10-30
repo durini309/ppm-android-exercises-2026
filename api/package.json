@@ -1,0 +1,16 @@
+{
+  "name": "students-api",
+  "version": "1.0.0",
+  "description": "API REST básica de estudiantes para practicar Ktor",
+  "main": "src/server.js",
+  "type": "module",
+  "packageManager": "pnpm@10.10.0",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "reset": "node src/reset.js"
+  },
+  "dependencies": {
+    "express": "5.1.0"
+  }
+}
